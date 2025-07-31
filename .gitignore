@@ -1,0 +1,28 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# Visual Studio folders
+.vs/
+
+# ASP.NET files
+wwwroot/lib/
+
+# Logs
+*.log
+
+# Database
+*.mdf
+*.ldf
+
+# Other
+*.db
+*.sqlite
+
+# Rider / VSCode
+.idea/
+.vscode/
