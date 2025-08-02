@@ -180,3 +180,34 @@ Esempio futuro:
 
 Questo passaggio mi ha aiutato a capire dove mettere il codice relativo ai dati e come strutturare il cuore 
 del collegamento tra codice e database.
+
+---
+
+### ✅ Giorno 4: Prima entità, migration e factory design-time
+
+#### 🔸 1. Creazione della prima entità: `Cittadino`
+
+- Ho creato il file `Cittadino.cs` nella cartella `Models/Entities`.
+- Per indicare a EF Core di usare il nome della tabella in **minuscolo**, ho aggiunto l'attributo `[Table("cittadini")]` sopra alla classe.
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ComuneOnline.Models.Entities
+{
+    [Table("cittadini")]
+    public class Cittadino
+    {
+        [Key]
+        public int CittadinoId { get; set; }
+
+        [Required]
+        public string Nome { get; set; }
+
+        [Required]
+        public string Cognome { get; set; }
+
+        public DateTime DataNascita { get; set; }
+    }
+}

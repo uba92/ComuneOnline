@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ComuneOnline.Models.Entities
 {
+    [Table("cittadini")]
     public class Cittadino
     {
         [Key]
