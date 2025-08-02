@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ComuneOnline.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ComuneOnline.Data
 {
@@ -10,5 +11,7 @@ namespace ComuneOnline.Data
         {
             
         }
+
+        public DbSet<Cittadino> Cittadini { get; set; }
     }
 }
