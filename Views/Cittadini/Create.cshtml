@@ -1,0 +1,42 @@
+﻿@model ComuneOnline.Models.Entities.Cittadino
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+<h2>Aggiungi Cittadino</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Nome"></label>
+        <input asp-for="Nome" class="form-control" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Cognome"></label>
+        <input asp-for="Cognome" class="form-control" />
+        <span asp-validation-for="Cognome" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DataNascita"></label>
+        <input asp-for="DataNascita" class="form-control" />
+        <span asp-validation-for="DataNascita" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LuogoNascita"></label>
+        <input asp-for="LuogoNascita" class="form-control" />
+        <span asp-validation-for="LuogoNascita" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IndirizzoResidenza"></label>
+        <input asp-for="IndirizzoResidenza" class="form-control" />
+        <span asp-validation-for="IndirizzoResidenza" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Aggiungi</button>
+    <a asp-action="Index" class="btn btn-secondary">Annulla</a>
+</form>

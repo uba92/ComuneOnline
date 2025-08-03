@@ -10,15 +10,15 @@ namespace ComuneOnline.Models.Entities
         public int CittadinoId { get; set; }
 
         [Required]
-        public string Nome { get; set; }
+        public required string Nome { get; set; }
         [Required]
-        public string Cognome { get; set; }
+        public required string Cognome { get; set; }
         [Required]
         public DateTime DataNascita { get; set; }
         [Required]
-        public string LuogoNascita { get; set; }
+        public string? LuogoNascita { get; set; }
         [Required]
-        public string IndirizzoResidenza { get; set; }
+        public string? IndirizzoResidenza { get; set; }
 
         public string? Telefono { get; set; }
         [EmailAddress]

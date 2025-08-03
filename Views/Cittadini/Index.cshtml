@@ -1,0 +1,25 @@
+﻿@using ComuneOnline.Models.Entities
+@model IEnumerable<Cittadino>
+
+<h2>Cittadini</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Data di Nascita</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var cittadino in Model)
+        {
+            <tr>
+                <td>@cittadino.Nome</td>
+                <td>@cittadino.Cognome</td>
+                <td>@cittadino.DataNascita.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
