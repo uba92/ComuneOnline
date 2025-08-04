@@ -1,7 +1,7 @@
 ﻿@model ComuneOnline.Models.Entities.Cittadino
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    <div id="errorMessage" class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 <h2>Aggiungi Cittadino</h2>
 
@@ -19,12 +19,6 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="DataNascita"></label>
-        <input asp-for="DataNascita" class="form-control" />
-        <span asp-validation-for="DataNascita" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
         <label asp-for="LuogoNascita"></label>
         <input asp-for="LuogoNascita" class="form-control" />
         <span asp-validation-for="LuogoNascita" class="text-danger"></span>
@@ -35,8 +29,15 @@
         <input asp-for="IndirizzoResidenza" class="form-control" />
         <span asp-validation-for="IndirizzoResidenza" class="text-danger"></span>
     </div>
-
-
     <button type="submit" class="btn btn-primary">Aggiungi</button>
     <a asp-action="Index" class="btn btn-secondary">Annulla</a>
 </form>
+
+<script>
+    setTimeout(() => {
+        const error = document.getElementById("errorMessage");
+        if (error.textContent == "Errore! Formato dati inseriti non corretti") {
+            error.style.display = "none";
+        }
+    }, 3000)
+</script>

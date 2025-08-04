@@ -13,8 +13,7 @@ namespace ComuneOnline.Models.Entities
         public required string Nome { get; set; }
         [Required]
         public required string Cognome { get; set; }
-        [Required]
-        public DateTime DataNascita { get; set; }
+
         [Required]
         public string? LuogoNascita { get; set; }
         [Required]

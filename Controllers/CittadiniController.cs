@@ -8,55 +8,59 @@ namespace ComuneOnline.Controllers
     public class CittadiniController : Controller
     {
         private readonly ComuneDbContext _context;
-
-        public CittadiniController(ComuneDbContext context)
+        private ILogger<CittadiniController> _logger;
+        public CittadiniController(ComuneDbContext context, ILogger<CittadiniController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        //GET: Cittadini
         public async Task<IActionResult> Index()
         {
             var cittadini = await _context.Cittadini.ToListAsync();
+
+            _logger.LogInformation("Cittadini recuperati: " + cittadini.Count);
+
+            foreach (var cittadino in cittadini)
+            {
+                _logger.LogInformation("Cittadno {Nome} {Cognome}", cittadino.Nome, cittadino.Cognome);
+            }
+            
+
             return View(cittadini);
         }
 
-        //GET : /Cittadini/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        //POST: /Cittadini/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Cittadino cittadino)
-        { 
+        {
             if (ModelState.IsValid)
             {
-                //check if citizens alredy exists
-                var existingCittadino = await _context.Cittadini.FirstOrDefaultAsync(
-                    c => c.Nome == cittadino.Nome
-                    && c.Cognome == cittadino.Cognome && c.DataNascita == cittadino.DataNascita
-                    && c.LuogoNascita == cittadino.LuogoNascita
-                    && c.IndirizzoResidenza == cittadino.IndirizzoResidenza);
+                // Controllo se il cittadino esiste già
+                var existingCittadino = await _context.Cittadini
+                    .FirstOrDefaultAsync(c => c.Nome == cittadino.Nome && c.Cognome == cittadino.Cognome);
 
                 if (existingCittadino != null)
                 {
-                    TempData["ErrorMessage"] = "Cittadino già esistente.";
+                    TempData["ErrorMessage"] = "Cittadino già esistente!";
                     return View(cittadino);
                 }
-                else
-                {
-                    cittadino.DataNascita = DateTime.SpecifyKind(cittadino.DataNascita, DateTimeKind.Utc);
-                    _context.Cittadini.Add(cittadino);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Cittadino creato con successo.";
-                    return RedirectToAction(nameof(Index));
-                }
+                _context.Add(cittadino);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Cittadino creato con successo!";
+
+                return RedirectToAction(nameof(Index));
             }
-            TempData["ErrorMessage"] = "Errore durante la creazione del cittadino.";
+
+            TempData["ErrorMessage"] = "Errore! Formato dati inseriti non corretti";
             return View(cittadino);
+
 
         }
     }

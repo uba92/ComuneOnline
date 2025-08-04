@@ -1,6 +1,13 @@
 ﻿@using ComuneOnline.Models.Entities
 @model IEnumerable<Cittadino>
 
+@if(TempData["SuccessMessage"] != null)
+{
+    <div id="successMessage" class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <h2>Cittadini</h2>
 
 <table class="table">
@@ -8,7 +15,6 @@
         <tr>
             <th>Nome</th>
             <th>Cognome</th>
-            <th>Data di Nascita</th>
         </tr>
     </thead>
 
@@ -18,8 +24,20 @@
             <tr>
                 <td>@cittadino.Nome</td>
                 <td>@cittadino.Cognome</td>
-                <td>@cittadino.DataNascita.ToString("dd/MM/yyyy")</td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+        const success = document.getElementById("successMessage");
+
+        if(success) {
+            success.style.display = "none";
+        }
+    }, 3000)
+    })
+    
+</script>
