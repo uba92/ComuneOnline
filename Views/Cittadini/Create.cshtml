@@ -6,6 +6,7 @@
 <h2>Aggiungi Cittadino</h2>
 
 <form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
     <div class="mb-3">
         <label asp-for="Nome"></label>
         <input asp-for="Nome" class="form-control" />

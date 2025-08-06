@@ -1,0 +1,55 @@
+﻿@using ComuneOnline.Models.Entities
+@model Cittadino
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorMessage" class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<h2>Modifica Cittadino</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="CittadinoId" />
+    <div class="mb-3">
+        <label asp-for="Nome"></label>
+        <input asp-for="Nome" class="form-control"/>
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Cognome"></label>
+        <input asp-for="Cognome" class="form-control"/>
+        <span asp-validation-for="Cognome" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LuogoNascita"></label>
+        <input asp-for="LuogoNascita" class="form-control"/>
+        <span asp-validation-for="LuogoNascita" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IndirizzoResidenza"></label>
+        <input asp-for="IndirizzoResidenza" class="form-control"/>
+        <span asp-validation-for="IndirizzoResidenza" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Telefono"></label>
+        <input asp-for="Telefono" class="form-control"/>
+        <span asp-validation-for="Telefono" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control"/>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-success">Salva</button>
+        <a asp-action="Index" class="btn btn-secondary">Annulla</a>
+    </div>
+</form>

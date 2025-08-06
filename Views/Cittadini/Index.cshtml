@@ -8,6 +8,13 @@
     </div>
 }
 
+@if(TempData["ErrorMessage"] != null)
+{
+    <div id="errorMessage" class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <h2>Cittadini</h2>
 
 <table class="table">
@@ -15,6 +22,7 @@
         <tr>
             <th>Nome</th>
             <th>Cognome</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -24,6 +32,7 @@
             <tr>
                 <td>@cittadino.Nome</td>
                 <td>@cittadino.Cognome</td>
+                <td><a asp-action="Edit" asp-route-id="@cittadino.CittadinoId" class="btn btn-outline-dark">Modifica</a></td>
             </tr>
         }
     </tbody>
