@@ -185,7 +185,6 @@ namespace ComuneOnline.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
 }
 
