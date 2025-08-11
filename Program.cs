@@ -1,4 +1,6 @@
+using AutoMapper;
 using ComuneOnline.Data;
+using ComuneOnline.Mappings.Profiles;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ComuneDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Registrazione di AutoMapper
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<CittadinoProfile>());
+
 
 var app = builder.Build();
 

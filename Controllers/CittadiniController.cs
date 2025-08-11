@@ -1,4 +1,6 @@
-﻿using ComuneOnline.Data;
+﻿using AutoMapper;
+using ComuneOnline.Data;
+using ComuneOnline.Models.DTOs;
 using ComuneOnline.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +11,13 @@ namespace ComuneOnline.Controllers
     {
         private readonly ComuneDbContext _context;
         private ILogger<CittadiniController> _logger;
-        public CittadiniController(ComuneDbContext context, ILogger<CittadiniController> logger)
+        private readonly IMapper _mapper;
+
+        public CittadiniController(ComuneDbContext context, ILogger<CittadiniController> logger, IMapper mapper)
         {
             _context = context;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -25,7 +30,7 @@ namespace ComuneOnline.Controllers
             {
                 _logger.LogInformation("Cittadno {Nome} {Cognome}", cittadino.Nome, cittadino.Cognome);
             }
-            
+
 
             return View(cittadini);
         }
@@ -66,7 +71,7 @@ namespace ComuneOnline.Controllers
 
         public IActionResult Edit(int id)
         {
-            if(id<=0)
+            if (id <= 0)
             {
                 TempData["ErrorMessage"] = "ID non valido";
             }
@@ -87,7 +92,7 @@ namespace ComuneOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Cittadino cittadino)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 TempData["ErrorMessage"] = "Errore! Formato dati inseriti non corretti";
                 return View();
@@ -105,11 +110,82 @@ namespace ComuneOnline.Controllers
             cittadinoToUpdate.IndirizzoResidenza = cittadino.IndirizzoResidenza;
             cittadinoToUpdate.Email = cittadino.Email;
             cittadinoToUpdate.Telefono = cittadino.Telefono;
-            
+
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Cittadino aggiornato con successo!";
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id <= 0)
+            {
+                TempData["ErrorMessage"] = "ID non valido";
+                return RedirectToAction(nameof(Index));
+            }
+            var cittadino = await _context.Cittadini.AsNoTracking().Where(c => c.CittadinoId == id).FirstOrDefaultAsync();
+            if (cittadino == null)
+            {
+                TempData["ErrorMessage"] = "Errore! Cittadino non trovato";
+                return RedirectToAction(nameof(Index));
+            }
+            var cittadinoDetails = _mapper.Map<CittadinoDetailsDTO>(cittadino);
+            return View(cittadinoDetails);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                TempData["ErrorMessage"] = "ID non valido";
+                return RedirectToAction(nameof(Index));
+            }
+            var cittadino = await _context.Cittadini.AsNoTracking().FirstOrDefaultAsync(c => c.CittadinoId == id);
+            var cittadinoDTO = _mapper.Map<CittadinoDetailsDTO>(cittadino);
+            if (cittadino == null)
+            {
+                TempData["ErrorMessage"] = "Errore! Cittadino non trovato";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(cittadinoDTO);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (id <= 0)
+            {
+                TempData["ErrorMessage"] = "ID non valido";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                var cittadino = await _context.Cittadini
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.CittadinoId == id);
+
+                if (cittadino == null)
+                {
+                    TempData["ErrorMessage"] = "Errore! Cittadino non trovato";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.Cittadini.Remove(cittadino);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Cittadino eliminato con successo!";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Errore durante l'eliminazione del cittadino.";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
+

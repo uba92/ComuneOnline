@@ -1,0 +1,19 @@
+﻿@model ComuneOnline.Models.DTOs.CittadinoDetailsDTO
+
+<h2>Sicuro di voler procedere con l'eliminazione?</h2>
+
+<div class="card shadow-sm mt-3">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Nome @Model.Cognome</h4>
+        <hr />
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Telefono:</strong> @Model.Telefono</p>
+    </div>
+
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" name="id" value="@Model.CittadinoId"/>
+
+        <button type="submit" class="btn btn-outline-danger">Elimina</button>
+        <a asp-action="Index" class="btn btn-outline-dark">Annulla</a>
+    </form>
+</div>

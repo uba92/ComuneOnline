@@ -1,14 +1,14 @@
 ﻿@using ComuneOnline.Models.Entities
 @model IEnumerable<Cittadino>
 
-@if(TempData["SuccessMessage"] != null)
+@if (TempData["SuccessMessage"] != null)
 {
     <div id="successMessage" class="alert alert-success">
         @TempData["SuccessMessage"]
     </div>
 }
 
-@if(TempData["ErrorMessage"] != null)
+@if (TempData["ErrorMessage"] != null)
 {
     <div id="errorMessage" class="alert alert-danger">
         @TempData["ErrorMessage"]
@@ -27,12 +27,15 @@
     </thead>
 
     <tbody>
-        @foreach(var cittadino in Model)
+        @foreach (var cittadino in Model)
         {
             <tr>
                 <td>@cittadino.Nome</td>
                 <td>@cittadino.Cognome</td>
-                <td><a asp-action="Edit" asp-route-id="@cittadino.CittadinoId" class="btn btn-outline-dark">Modifica</a></td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@cittadino.CittadinoId" class="btn btn-outline-dark">Modifica</a>
+                    <a asp-action="Details" asp-route-id="@cittadino.CittadinoId" class="btn btn-outline-dark">Dettagli</a>
+                    </td>
             </tr>
         }
     </tbody>
@@ -48,5 +51,5 @@
         }
     }, 3000)
     })
-    
+
 </script>
